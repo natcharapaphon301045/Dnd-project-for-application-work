@@ -1,0 +1,6 @@
+@Dnd_project_for_application_work_HostAddress = http://localhost:5145
+
+GET {{Dnd_project_for_application_work_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

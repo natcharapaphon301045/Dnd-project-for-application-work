@@ -16,19 +16,13 @@ namespace Dnd_project_for_application_work.Controllers
             _context = context;
         }
 
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Character>>> GetCharacters()
+        public async Task<IActionResult> GetAllCharacters()
         {
-            var characters = await _context.Characters
-                .Include(c => c.Alignment)
-                .Include(c => c.Class)
-                .Include(c => c.Race)
-                .ToListAsync();
-
-            if (characters == null || !characters.Any())
-                return NotFound();
-
+            var characters = await _characterService.GetAllCharactersAsync();
             return Ok(characters);
         }
+
     }
 }

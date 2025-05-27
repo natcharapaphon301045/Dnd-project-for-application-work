@@ -19,8 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application Layer\" />
-    <Folder Include="Infrastructure Layer\" />
     <Folder Include="Presentaton layer\" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿using Dnd_project_for_application_work.DbContext;
+﻿using Dnd_project_for_application_work.Infrastructure_Layer.Persistence_DbContext;
 using Dnd_project_for_application_work.Domain_Layer.IRepositories;
 using Dnd_project_for_application_work.Domain_Layer;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +20,11 @@ namespace Dnd_project_for_application_work.Infrastructure_Layer.Repositories
         {
             return await _context.Alignments.ToListAsync();
         }
+        public async Task<Alignment?> GetAlignmentByIdAsync(int id)
+        {
+            return await _context.Alignments.FirstOrDefaultAsync(c => c.AlignmentId == id);
+        }
 
-        
+
     }
 }

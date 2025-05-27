@@ -1,4 +1,4 @@
-﻿using Dnd_project_for_application_work.DbContext;
+﻿using Dnd_project_for_application_work.Infrastructure_Layer.Persistence_DbContext;
 using Dnd_project_for_application_work.Domain_Layer.IRepositories;
 using Dnd_project_for_application_work.Domain_Layer;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +24,7 @@ namespace Dnd_project_for_application_work.Infrastructure_Layer.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Character?> GetByIdAsync(int id)
+        public async Task<Character?> GetCharacterByIdAsync(int id)
         {
             return await _context.Characters
                 .Include(c => c.Alignment)
@@ -33,19 +33,19 @@ namespace Dnd_project_for_application_work.Infrastructure_Layer.Repositories
                 .FirstOrDefaultAsync(c => c.CharacterId == id);
         }
 
-        public async Task AddAsync(Character character)
+        public async Task CreateCharacterAsync(Character character)
         {
             await _context.Characters.AddAsync(character);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Character character)
+        public async Task UpdateCharacterAsync(Character character)
         {
             _context.Characters.Update(character);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteCharacterAsync(int id)
         {
             var character = await _context.Characters.FindAsync(id);
             if (character != null)

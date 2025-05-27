@@ -1,7 +1,8 @@
 ﻿using Dnd_project_for_application_work.Domain_Layer;
 using Microsoft.EntityFrameworkCore;
 
-namespace Dnd_project_for_application_work.DbContext
+namespace Dnd_project_for_application_work.Infrastructure_Layer.Persistence_DbContext
+
 {
     public class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
@@ -19,21 +20,18 @@ namespace Dnd_project_for_application_work.DbContext
         {
             base.OnModelCreating(modelBuilder);
 
-            // Character -> Alignment (Many to One)
             modelBuilder.Entity<Character>()
                 .HasOne(c => c.Alignment)
                 .WithMany(a => a.Characters)
                 .HasForeignKey(c => c.AlignmentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Character -> Class (Many to One)
             modelBuilder.Entity<Character>()
                 .HasOne(c => c.Class)
                 .WithMany(cl => cl.Characters)
                 .HasForeignKey(c => c.ClassId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Character -> Race (Many to One)
             modelBuilder.Entity<Character>()
                 .HasOne(c => c.Race)
                 .WithMany(r => r.Characters)

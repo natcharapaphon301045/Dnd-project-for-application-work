@@ -23,5 +23,16 @@ namespace Dnd_project_for_application_work.Application_Layer.Services
                 AlignmentName = c.AlignmentName
             });
         }
+        public async Task<AlignmentDto?> GetAlignmentByIdAsync(int id)
+        {
+            var c = await _AlignmentRepository.GetAlignmentByIdAsync(id);
+            if (c == null) return null;
+
+            return new AlignmentDto
+            {
+                AlignmentId = c.AlignmentId,
+                AlignmentName = c.AlignmentName
+            };
+        }
     }
 }

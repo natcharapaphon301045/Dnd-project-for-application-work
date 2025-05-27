@@ -1,4 +1,4 @@
-﻿using Dnd_project_for_application_work.DbContext;
+﻿using Dnd_project_for_application_work.Infrastructure_Layer.Persistence_DbContext;
 using Dnd_project_for_application_work.Application_Layer.Interfaces;
 using Dnd_project_for_application_work.Application_Layer.Services;
 using Dnd_project_for_application_work.Domain_Layer.IRepositories;
@@ -11,8 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Application Services
+// Repository registrations
 builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
+builder.Services.AddScoped<IAlignmentRepository, AlignmentRepository>();   
+builder.Services.AddScoped<IRaceRepository, RaceRepository>();             
+builder.Services.AddScoped<IClassRepository, ClassRepository>();           
+
+// Application Services
 builder.Services.AddScoped<ICharacterService, CharacterService>();
 
 // Controller, Swagger

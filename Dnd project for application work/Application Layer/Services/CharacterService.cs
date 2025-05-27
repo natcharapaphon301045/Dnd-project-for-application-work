@@ -2,6 +2,7 @@
 using Dnd_project_for_application_work.Application_Layer.Interfaces;
 using Dnd_project_for_application_work.Domain_Layer;
 using Dnd_project_for_application_work.Domain_Layer.IRepositories;
+using Dnd_project_for_application_work.Infrastructure_Layer.Repositories;
 
 namespace Dnd_project_for_application_work.Application_Layer.Services
 {
@@ -11,7 +12,6 @@ namespace Dnd_project_for_application_work.Application_Layer.Services
         private readonly IAlignmentRepository _AlignmentRepository;
         private readonly IRaceRepository _RaceRepository;
         private readonly IClassRepository _ClassRepository;
-
         public CharacterService(
             ICharacterRepository characterRepository,
             IAlignmentRepository alignmentRepository,
@@ -23,7 +23,6 @@ namespace Dnd_project_for_application_work.Application_Layer.Services
             _RaceRepository = raceRepository;
             _ClassRepository = classRepository;
         }
-
         public async Task<IEnumerable<CharacterDto>> GetAllCharactersAsync()
         {
             var characters = await _CharacterRepository.GetAllCharacterAsync();
@@ -37,7 +36,6 @@ namespace Dnd_project_for_application_work.Application_Layer.Services
                 RaceName = c.Race?.RaceName ?? "Unknown"
             });
         }
-
         public async Task<CharacterDto?> GetCharacterByIdAsync(int id)
         {
             var c = await _CharacterRepository.GetCharacterByIdAsync(id);
@@ -52,8 +50,6 @@ namespace Dnd_project_for_application_work.Application_Layer.Services
                 RaceName = c.Race?.RaceName ?? "Unknown"
             };
         }
-
-        //create character
         public async Task<ApiResponse<CharacterDto>> CreateCharacterAsync(CreateCharacterDto characterDto)
         {
             var alignment = await _AlignmentRepository.GetAlignmentByIdAsync(characterDto.AlignmentId);
@@ -90,6 +86,41 @@ namespace Dnd_project_for_application_work.Application_Layer.Services
         }
 
         //Update character
+        public async Task<ApiResponse<CharacterDto>> UpdateCharacterAsync(UpdateCharacterDto dto)
+        {
+            var character = await _CharacterRepository.GetCharacterByIdAsync(dto.CharacterId);
+            if (character == null)
+                return new ApiResponse<CharacterDto>(false, "Character not found", null);
+
+            var alignment = await _AlignmentRepository.GetAlignmentByIdAsync(dto.AlignmentId);
+            var race = await _RaceRepository.GetRaceByIdAsync(dto.RaceId);
+            var classEntity = await _ClassRepository.GetClassByIdAsync(dto.ClassId);
+
+            if (alignment == null)
+                return new ApiResponse<CharacterDto>(false, "Alignment not found", null);
+            if (race == null)
+                return new ApiResponse<CharacterDto>(false, "Race not found", null);
+            if (classEntity == null)
+                return new ApiResponse<CharacterDto>(false, "Class not found", null);
+
+            character.CharacterName = dto.CharacterName;
+            character.AlignmentId = dto.AlignmentId;
+            character.RaceId = dto.RaceId;
+            character.ClassId = dto.ClassId;
+
+            await _CharacterRepository.UpdateCharacterAsync(character);
+
+            var updatedDto = new CharacterDto
+            {
+                CharacterId = character.CharacterId,
+                CharacterName = character.CharacterName,
+                AlignmentName = alignment.AlignmentName,
+                RaceName = race.RaceName,
+                ClassName = classEntity.ClassName
+            };
+
+            return new ApiResponse<CharacterDto>(true, "Character updated successfully", updatedDto);
+        }
 
         public async Task<bool> DeleteCharacterAsync(int id)
         {

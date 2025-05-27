@@ -50,6 +50,18 @@ namespace Dnd_project_for_application_work.Controllers
 
             return Ok(response.Data);
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCharacter(int id, [FromBody] UpdateCharacterDto dto)
+        {
+            if (id != dto.CharacterId)
+                return BadRequest("Mismatched CharacterId");
+
+            var response = await _characterService.UpdateCharacterAsync(dto);
+            if (!response.Success)
+                return BadRequest(response.Message);
+
+            return Ok(response.Data);
+        }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCharacter(int id)

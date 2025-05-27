@@ -16,7 +16,7 @@ namespace Dnd_project_for_application_work.Infrastructure_Layer.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Alignment>> GetAllAsync()
+        public async Task<IEnumerable<Alignment>> GetAllAlignmentAsync()
         {
             return await _context.Alignments.ToListAsync();
         }

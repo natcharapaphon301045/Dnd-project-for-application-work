@@ -15,8 +15,7 @@ namespace Dnd_project_for_application_work.Infrastructure_Layer.Repositories
         {
             _context = context;
         }
-
-        public async Task<IEnumerable<Character>> GetAllAsync()
+        public async Task<IEnumerable<Character>> GetAllCharacterAsync()
         {
             return await _context.Characters
                 .Include(c => c.Alignment)

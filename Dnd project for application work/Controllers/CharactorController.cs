@@ -20,7 +20,7 @@ namespace Dnd_project_for_application_work.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCharacters()
         {
-            var characters = await _characterService.GetAllCharactersAsync();
+            var characters = await _CharacterService.GetAllCharactersAsync();
             return Ok(characters);
         }
 

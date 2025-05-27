@@ -1,7 +1,6 @@
-﻿using Dnd_project_for_application_work.DbContext;
-using Dnd_project_for_application_work.Domain_Layer;
+﻿using Dnd_project_for_application_work.Application_Layer.Interfaces;
+using Dnd_project_for_application_work.DbContext;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Dnd_project_for_application_work.Controllers
 {
@@ -10,19 +9,19 @@ namespace Dnd_project_for_application_work.Controllers
     public class CharacterController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly ICharacterService _characterService;
 
-        public CharacterController(AppDbContext context)
+        public CharacterController(AppDbContext context, ICharacterService characterService)
         {
             _context = context;
+            _characterService = characterService;
         }
-
 
         [HttpGet]
         public async Task<IActionResult> GetAllCharacters()
         {
-            var characters = await _CharacterService.GetAllCharactersAsync();
+            var characters = await _characterService.GetAllCharactersAsync();
             return Ok(characters);
         }
-
     }
 }

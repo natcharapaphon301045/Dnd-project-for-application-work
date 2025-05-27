@@ -7,24 +7,24 @@ namespace Dnd_project_for_application_work.Application_Layer.Services
 {
     public class CharacterService : ICharacterService
     {
-        private readonly ICharacterRepository _characterRepository;
+        private readonly ICharacterRepository _CharacterRepository;
 
-        public CharacterService(ICharacterRepository characterRepository)
+        public CharacterService(ICharacterRepository CharacterRepository)
         {
-            _characterRepository = characterRepository;
+            _CharacterRepository = CharacterRepository;
         }
 
         public async Task<IEnumerable<CharacterDto>> GetAllCharactersAsync()
         {
-            var characters = await _characterRepository.GetAllCharacterAsync();
+            var characters = await _CharacterRepository.GetAllCharacterAsync();
 
             return characters.Select(c => new CharacterDto
             {
                 CharacterId = c.CharacterId,
                 CharacterName = c.CharacterName,
-                AlignmentName = c.AlignmentName,
-                ClassName = c.ClassName,
-                RaceName = c.Race?.Name
+                AlignmentName = c.Alignment?.AlignmentName ?? "Unknown",
+                ClassName = c.Class?.ClassName ?? "Unknown",
+                RaceName = c.Race?.RaceName ?? "Unknown"
             });
         }
 

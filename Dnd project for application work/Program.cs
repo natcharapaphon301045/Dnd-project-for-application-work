@@ -1,13 +1,22 @@
 ﻿using Dnd_project_for_application_work.DbContext;
+using Dnd_project_for_application_work.Application_Layer.Interfaces;
+using Dnd_project_for_application_work.Application_Layer.Services;
+using Dnd_project_for_application_work.Domain_Layer.IRepositories;
+using Dnd_project_for_application_work.Infrastructure_Layer.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddControllers();
+// Application Services
+builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
+builder.Services.AddScoped<ICharacterService, CharacterService>();
 
+// Controller, Swagger
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -20,9 +29,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

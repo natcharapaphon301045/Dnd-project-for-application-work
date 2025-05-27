@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Dnd_project_for_application_work.DbContext; // ต้องใช้ namespace ที่คุณสร้าง ApplicationDbContext ไว้
+﻿using Dnd_project_for_application_work.DbContext;
 using Dnd_project_for_application_work.Domain_Layer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dnd_project_for_application_work.Controllers
 {
@@ -9,25 +9,26 @@ namespace Dnd_project_for_application_work.Controllers
     [ApiController]
     public class CharacterController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly AppDbContext _context;
 
-        public CharacterController(ApplicationDbContext context)
+        public CharacterController(AppDbContext context)
         {
             _context = context;
         }
-        /*
+
         [HttpGet]
-        public async Task<IActionResult> GetCharacters()
+        public async Task<ActionResult<IEnumerable<Character>>> GetCharacters()
         {
             var characters = await _context.Characters
-                .Include(c => c.Race)
-                .Include(c => c.Class)
                 .Include(c => c.Alignment)
+                .Include(c => c.Class)
+                .Include(c => c.Race)
                 .ToListAsync();
+
+            if (characters == null || !characters.Any())
+                return NotFound();
 
             return Ok(characters);
         }
-        */
-        // เพิ่ม Create, Update, Delete ได้ภายหลัง
     }
 }

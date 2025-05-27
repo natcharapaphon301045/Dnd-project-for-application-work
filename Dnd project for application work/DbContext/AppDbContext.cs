@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dnd_project_for_application_work.DbContext
 {
-    public class ApplicationDbContext : Microsoft.EntityFrameworkCore.DbContext
+    public class AppDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
         }

@@ -1,41 +1,9 @@
 ﻿<template>
     <v-container>
-        <!-- ใช้ v-row แบบไม่มี padding -->
-        <v-row no-gutters>
-            <!-- card สีแดงสูง 5px เต็มแถว -->
-            <v-col cols="12">
-                <v-card height="5" color="red" flat></v-card>
-            </v-col>
-        </v-row>
-        <v-row no-gutters>
-            <!-- card สีแดงสูง 5px เต็มแถว -->
-            <v-col cols="12">
-                <v-card height="5" color="white" flat></v-card>
-            </v-col>
-        </v-row>
-        <v-row no-gutters>
-            <v-col cols="4">
-                <v-card height="5" color="orange" flat></v-card>
-            </v-col>
-            <v-col cols="4">
-                <v-card height="5" color="red" flat></v-card>
-            </v-col>
-            <v-col cols="4">
-                <v-card height="5" color="orange" flat></v-card>
-            </v-col>
-
-        </v-row>
-
-        <v-row no-gutters>
-            <v-col>
-                <v-card height="5" width="1168" color="green" flat></v-card>
-            </v-col>
-        </v-row>
-
         <v-row cals ="12" style="height: 300px;">
             <!-- Card 1 -->
-            <v-col cols="4" class="d-flex justify-end">
-                <v-card height="600"
+            <v-col cols="4" class="d-flex justify-end mt-5">
+                <v-card height="570"
                         width="380"
                         color="surface-variant"
                         :image="cards[0].image"
@@ -43,7 +11,7 @@
                         :subtitle="cards[0].subtitle">
                 </v-card>
                 <!-- Left Button -->
-                <div class="d-flex align-center justify-center" ml-5>
+                <div class="d-flex align-center justify-center ml-5">
                     <v-btn icon color="black" @click="rotateLeft">
                         <svg-icon type="mdi" :path="mdiChevronLeftCircleOutline" />
                     </v-btn>
@@ -63,14 +31,14 @@
             </v-col>
 
             <!-- Card 3 -->
-            <v-col cols="4" class="d-flex justify-start">
+            <v-col cols="4" class="d-flex justify-start mt-5">
                 <!-- Right Button -->
-                <div class="d-flex align-center justify-center">
-                    <v-btn icon color="white" @click="rotateRight">
+                <div class="d-flex align-center justify-center mr-2">
+                    <v-btn icon color="black" @click="rotateRight">
                         <svg-icon type="mdi" :path="mdiChevronRightCircleOutline" />
                     </v-btn>
                 </div>
-                <v-card height="600"
+                <v-card height="570 "
                         width="380"
                         color="surface-variant"
                         :image="cards[2].image"
@@ -88,36 +56,33 @@
     import SvgIcon from '@jamescoyle/vue-icon'
     import { mdiChevronLeftCircleOutline, mdiChevronRightCircleOutline } from '@mdi/js'
 
-    // cards ข้อมูล
     const cards = ref([
         {
-            title: 'Evening sunset',
-            subtitle: 'Take a walk down the beach',
+            title: 'Dwarf',
+            subtitle: '',
             image: '/src/assets/Dwarf.png',
         },
         {
-            title: 'Mountain Adventure',
-            subtitle: 'Explore the heights',
+            title: 'Elf',
+            subtitle: '',
             image: '/src/assets/Elf.png',
         },
         {
-            title: 'City Lights',
-            subtitle: 'Enjoy the nightlife',
+            title: 'Halfing',
+            subtitle: '',
             image: '/src/assets/Halfing.png',
         },
         {
-            title: 'City Lights',
-            subtitle: 'Enjoy the nightlife',
+            title: 'Human',
+            subtitle: '',
             image: '/src/assets/Human.png',
         },
     ])
 
-    // เลื่อนซ้าย
     function rotateLeft() {
         cards.value.unshift(cards.value.pop())
     }
 
-    // เลื่อนขวา
     function rotateRight() {
         cards.value.push(cards.value.shift())
     }

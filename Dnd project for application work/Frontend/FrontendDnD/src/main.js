@@ -1,5 +1,14 @@
-import { createApp } from 'vue'
-import './style.css'
+﻿import { createApp } from 'vue'
 import App from './App.vue'
+import router from './router'
+import SvgIcon from '@jamescoyle/vue-icon'
+import vuetify from './plugins/vuetify'
+import './style.css'
 
-createApp(App).mount('#app')
+const app = createApp(App)
+
+app.use(router)
+app.use(vuetify)
+app.component('svg-icon', SvgIcon)
+
+app.mount('#app')

@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Frontend\" />
+    <Folder Include="Frontend\FrontendDnD\src\views\" />
     <Folder Include="Presentaton layer\" />
   </ItemGroup>
 

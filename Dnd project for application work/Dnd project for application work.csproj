@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Frontend\" />
     <Folder Include="Presentaton layer\" />
   </ItemGroup>
 

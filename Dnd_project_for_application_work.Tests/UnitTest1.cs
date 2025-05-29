@@ -50,5 +50,55 @@ namespace Dnd_project_for_application_work.Tests
             Assert.Equal("Wizard", result.First().ClassName);
             Assert.Equal("Elf", result.First().RaceName);
         }
+        [Fact]
+        public async Task GetAllCharactersAsync_ReturnsEmptyList_WhenNoCharactersExist()
+        {
+            var mockCharacterRepo = new Mock<ICharacterRepository>();
+            mockCharacterRepo.Setup(r => r.GetAllCharacterAsync()).ReturnsAsync(new List<Character>());
+
+            var service = new CharacterService(mockCharacterRepo.Object, null!, null!, null!);
+            var result = await service.GetAllCharactersAsync();
+
+            Assert.NotNull(result);
+            Assert.Empty(result);
+        }
+        [Fact]
+        public async Task GetAllCharactersAsync_HandlesNullFieldsGracefully()
+        {
+            var mockCharacterRepo = new Mock<ICharacterRepository>();
+            var characters = new List<Character>
+    {
+        new Character
+        {
+            CharacterId = 1,
+            CharacterName = "NullTest",
+            Alignment = null,
+            Class = null,
+            Race = null
+        }
+    };
+            mockCharacterRepo.Setup(r => r.GetAllCharacterAsync()).ReturnsAsync(characters);
+
+            var service = new CharacterService(mockCharacterRepo.Object, null!, null!, null!);
+            var result = await service.GetAllCharactersAsync();
+
+            Assert.Single(result);
+            Assert.Equal("NullTest", result.First().CharacterName);
+            Assert.Null(result.First().AlignmentName);
+            Assert.Null(result.First().ClassName);
+            Assert.Null(result.First().RaceName);
+        }
+        [Fact]
+        public async Task GetAllCharactersAsync_ThrowsException_WhenRepositoryFails()
+        {
+            var mockCharacterRepo = new Mock<ICharacterRepository>();
+            mockCharacterRepo.Setup(r => r.GetAllCharacterAsync()).ThrowsAsync(new Exception("DB error"));
+
+            var service = new CharacterService(mockCharacterRepo.Object, null!, null!, null!);
+
+            await Assert.ThrowsAsync<Exception>(() => service.GetAllCharactersAsync());
+        }
+
+
     }
 }

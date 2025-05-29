@@ -1,13 +1,13 @@
 <template>
-    <v-container>
+    <v-container >
         <v-row cols="12">
             <v-col cols="1"></v-col>
 
-            <v-col cols="9">
+            <v-col cols="8" class="bg-white">
                 <h1>All Character</h1>
             </v-col>
 
-            <v-col cols="2">
+            <v-col cols="2" class="bg-white">
                 <v-btn color="primary" class="mb-4 mt-5" @click="openDialog">
                     Create Character
                 </v-btn>
@@ -65,7 +65,7 @@
         <v-row cols="12">
             <v-col cols="1"></v-col>
 
-            <v-col cols="10">
+            <v-col cols="10" class="bg-white">
                 <table class="v-data-table elevation-1" style="width: 100%; border-collapse: collapse;">
                     <thead>
                         <tr>

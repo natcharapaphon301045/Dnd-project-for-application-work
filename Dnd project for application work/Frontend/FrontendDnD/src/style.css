@@ -71,6 +71,14 @@ button:focus-visible {
     height: 100%;
     text-align: left;
 }
+.main-background {
+    background-image: url('/src/assets/BG.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
 
 .v-application .v-container {
     max-width: 100% !important;
@@ -78,7 +86,7 @@ button:focus-visible {
     padding-right: 0 !important;
 }
 .custom-title {
-    font-size: 30px;1
+    font-size: 40px;
     color: #d32f2f;
     font-weight: bold;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);

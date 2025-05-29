@@ -21,10 +21,10 @@ public class CreateCharacterDto
 public class UpdateCharacterDto
 {
     public int CharacterId { get; set; }
-    public string CharacterName { get; set; } = null!;
-    public int AlignmentId { get; set; }
-    public int RaceId { get; set; }
-    public int ClassId { get; set; }
+    public string? CharacterName { get; set; }
+    public int? AlignmentId { get; set; }
+    public int? RaceId { get; set; }
+    public int? ClassId { get; set; }
 }
 
 

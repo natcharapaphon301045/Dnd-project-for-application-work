@@ -20,6 +20,11 @@ builder.Services.AddScoped<IClassRepository, ClassRepository>();
 // Application Services
 builder.Services.AddScoped<ICharacterService, CharacterService>();
 
+builder.Services.AddScoped<AlignmentService>();
+builder.Services.AddScoped<RaceService>();
+builder.Services.AddScoped<ClassService>();
+
+
 // Controller, Swagger
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

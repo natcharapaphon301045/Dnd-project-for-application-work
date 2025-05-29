@@ -85,10 +85,10 @@
                             <td style="padding: 8px;">{{ item.raceName }}</td>
                             <td style="padding: 8px;">{{ item.className }}</td>
                             <td style="padding: 8px;">
-                                <v-btn icon @click="editCharacter(item)">
+                                <v-btn icon @click="editCharacter(item)"> <!-- เมื่อกดปุ่มนี้ จะเด้ง edit model ขึ้นมา-->
                                     <v-icon>mdi-pencil</v-icon>
                                 </v-btn>
-                                <v-btn icon @click="deleteCharacter(item.characterId)">
+                                <v-btn icon @click="deleteCharacter(item.characterId)"> 
                                     <v-icon color="red">mdi-delete</v-icon>
                                 </v-btn>
                             </td>
@@ -96,9 +96,73 @@
                     </tbody>
                 </table>
             </v-col>
-
             <v-col cols="1"></v-col>
         </v-row>
+        <!--Edit character-->
+        <v-dialog v-model="dialogEdit" max-width="500">
+            <v-card>
+                <v-card-title>Edit Character</v-card-title>
+                <v-card-text>
+                    <v-form @submit.prevent="updateCharacter">
+                        <v-row class="d-flex align-center">
+                            <v-checkbox v-model="editFlags.characterName"
+                                        label="Mark for edit"
+                                        class="mr-2" />
+                            <v-text-field label="Character Name"
+                                          v-model="editedCharacter.characterName"
+                                          :disabled="!editFlags.characterName"
+                                          dense outlined required />
+                        </v-row>
+
+                        <v-row class="d-flex align-center">
+                            <v-checkbox v-model="editFlags.alignmentId"
+                                        label="Mark for edit"
+                                        class="mr-2" />
+                            <v-select label="Alignment"
+                                      :items="alignments"
+                                      item-title="alignmentName"
+                                      item-value="alignmentId"
+                                      v-model="editedCharacter.alignmentId"
+                                      :disabled="!editFlags.alignmentId"
+                                      dense outlined required />
+                        </v-row>
+
+                        <v-row class="d-flex align-center">
+                            <v-checkbox v-model="editFlags.raceId"
+                                        label="Mark for edit"
+                                        class="mr-2" />
+                            <v-select label="Race"
+                                      :items="races"
+                                      item-title="raceName"
+                                      item-value="raceId"
+                                      v-model="editedCharacter.raceId"
+                                      :disabled="!editFlags.raceId"
+                                      dense outlined required />
+                        </v-row>
+
+                        <v-row class="d-flex align-center">
+                            <v-checkbox v-model="editFlags.classId"
+                                        label="Mark for edit"
+                                        class="mr-2" />
+                            <v-select label="Class"
+                                      :items="classes"
+                                      item-title="className"
+                                      item-value="classId"
+                                      v-model="editedCharacter.classId"
+                                      :disabled="!editFlags.classId"
+                                      dense outlined required />
+                        </v-row>
+
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn text @click="dialogEdit = false">Cancel</v-btn>
+                            <v-btn color="primary" type="submit">Update</v-btn>
+                        </v-card-actions>
+                    </v-form>
+
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </v-container>
 </template>
 
@@ -132,9 +196,9 @@
 
     const fetchOptions = async () => {
         const [alignmentRes, raceRes, classRes] = await Promise.all([
-            axios.get('http://localhost:5145/api/Alignment'),
-            axios.get('http://localhost:5145/api/Race'),
-            axios.get('http://localhost:5145/api/Class'),
+            axios.get('http://localhost:5145/api/StaticData/Alignment'),
+            axios.get('http://localhost:5145/api/StaticData/Race'),
+            axios.get('http://localhost:5145/api/StaticData/Class'),
         ]);
         alignments.value = alignmentRes.data.data;
         races.value = raceRes.data.data;
@@ -164,9 +228,55 @@
         }
     };
 
+    const dialogEdit = ref(false);
+
+    const editFlags = ref({
+        characterName: false,
+        alignmentId: false,
+        raceId: false,
+        classId: false,
+    });
+
+
+    const editedCharacter = ref({
+        characterId: null,
+        characterName: '',
+        alignmentId: null, /* แสดง Alignment ปัจจุบัน */
+        raceId: null,
+        classId: null
+    });
+
+
     const editCharacter = (item) => {
-        router.push({ name: "EditCharacter", params: { id: item.characterId } });
+        editedCharacter.value = {
+            characterId: item.characterId,
+            characterName: item.characterName,
+            alignmentId: item.alignmentId,
+            raceId: item.raceId,
+            classId: item.classId
+        };
+        dialogEdit.value = true;
     };
+
+    const updateCharacter = async () => {
+        try {
+            // สร้าง payload ใหม่เฉพาะฟิลด์ที่ถูกแก้ไข
+            const payload = { characterId: editedCharacter.value.characterId };
+            if (editFlags.value.characterName) payload.characterName = editedCharacter.value.characterName;
+            if (editFlags.value.alignmentId) payload.alignmentId = editedCharacter.value.alignmentId;
+            if (editFlags.value.raceId) payload.raceId = editedCharacter.value.raceId;
+            if (editFlags.value.classId) payload.classId = editedCharacter.value.classId;
+
+            await axios.put(`http://localhost:5145/api/Character/${payload.characterId}`, payload);
+            dialogEdit.value = false;
+            await fetchCharacters();
+        } catch (error) {
+            console.error("Failed to update character:", error);
+            alert("Failed to update character");
+        }
+    };
+
+
 
     const deleteCharacter = async (id) => {
         if (confirm("Are you sure you want to delete this character?")) {

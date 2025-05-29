@@ -92,31 +92,46 @@ namespace Dnd_project_for_application_work.Application_Layer.Services
             if (character == null)
                 return new ApiResponse<CharacterDto>(false, "Character not found", null);
 
-            var alignment = await _AlignmentRepository.GetAlignmentByIdAsync(dto.AlignmentId);
-            var race = await _RaceRepository.GetRaceByIdAsync(dto.RaceId);
-            var classEntity = await _ClassRepository.GetClassByIdAsync(dto.ClassId);
+            if (dto.CharacterName != null)
+                character.CharacterName = dto.CharacterName;
 
-            if (alignment == null)
-                return new ApiResponse<CharacterDto>(false, "Alignment not found", null);
-            if (race == null)
-                return new ApiResponse<CharacterDto>(false, "Race not found", null);
-            if (classEntity == null)
-                return new ApiResponse<CharacterDto>(false, "Class not found", null);
+            if (dto.AlignmentId.HasValue)
+            {
+                var alignment = await _AlignmentRepository.GetAlignmentByIdAsync(dto.AlignmentId.Value);
+                if (alignment == null)
+                    return new ApiResponse<CharacterDto>(false, "Alignment not found", null);
+                character.AlignmentId = dto.AlignmentId.Value;
+            }
 
-            character.CharacterName = dto.CharacterName;
-            character.AlignmentId = dto.AlignmentId;
-            character.RaceId = dto.RaceId;
-            character.ClassId = dto.ClassId;
+            if (dto.RaceId.HasValue)
+            {
+                var race = await _RaceRepository.GetRaceByIdAsync(dto.RaceId.Value);
+                if (race == null)
+                    return new ApiResponse<CharacterDto>(false, "Race not found", null);
+                character.RaceId = dto.RaceId.Value;
+            }
+
+            if (dto.ClassId.HasValue)
+            {
+                var classEntity = await _ClassRepository.GetClassByIdAsync(dto.ClassId.Value);
+                if (classEntity == null)
+                    return new ApiResponse<CharacterDto>(false, "Class not found", null);
+                character.ClassId = dto.ClassId.Value;
+            }
 
             await _CharacterRepository.UpdateCharacterAsync(character);
+
+            var alignmentName = (await _AlignmentRepository.GetAlignmentByIdAsync(character.AlignmentId))?.AlignmentName ?? "";
+            var raceName = (await _RaceRepository.GetRaceByIdAsync(character.RaceId))?.RaceName ?? "";
+            var className = (await _ClassRepository.GetClassByIdAsync(character.ClassId))?.ClassName ?? "";
 
             var updatedDto = new CharacterDto
             {
                 CharacterId = character.CharacterId,
                 CharacterName = character.CharacterName,
-                AlignmentName = alignment.AlignmentName,
-                RaceName = race.RaceName,
-                ClassName = classEntity.ClassName
+                AlignmentName = alignmentName,
+                RaceName = raceName,
+                ClassName = className
             };
 
             return new ApiResponse<CharacterDto>(true, "Character updated successfully", updatedDto);

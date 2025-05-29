@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <v-row cals="12" style="height: 300px;">
+        <v-row cols="12" style="height: 300px;">
             <!-- Card 1 -->
             <v-col cols="4" class="d-flex justify-end mt-5">
                 <v-card height="570"
@@ -24,9 +24,13 @@
                         height="600"
                         width="500"
                         color="surface-variant"
-                        :image="cards[1].image"
-                        :title="cards[1].title"
-                        :subtitle="cards[1].subtitle">
+                        :image="cards[1].image">
+                    <v-card-title class="custom-title">
+                        {{cards[1].title}}
+                    </v-card-title>
+                    <v-card-subtitle class="custom-subtitle">
+                        {{cards[1].subtitle}}
+                    </v-card-subtitle>
                 </v-card>
             </v-col>
 
@@ -55,26 +59,27 @@
     import { ref } from 'vue'
     import SvgIcon from '@jamescoyle/vue-icon'
     import { mdiChevronLeftCircleOutline, mdiChevronRightCircleOutline } from '@mdi/js'
+    import '../style.css';
 
     const cards = ref([
         {
             title: 'Dwarf',
-            subtitle: '',
+            subtitle: 'Sturdy miners and warriors',
             image: '/src/assets/Dwarf.png',
         },
         {
             title: 'Elf',
-            subtitle: '',
+            subtitle: 'Graceful and magical beings',
             image: '/src/assets/Elf.png',
         },
         {
             title: 'Halfing',
-            subtitle: '',
+            subtitle: 'Small, nimble adventurers',
             image: '/src/assets/Halfing.png',
         },
         {
             title: 'Human',
-            subtitle: '',
+            subtitle: 'Versatile and ambitious',
             image: '/src/assets/Human.png',
         },
     ])

@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <v-row cals="12" style="height: 300px;">
+        <v-row cols="12" style="height: 300px;">
             <!-- Card 1 -->
             <v-col cols="4" class="d-flex justify-end mt-5">
                 <v-card height="570"

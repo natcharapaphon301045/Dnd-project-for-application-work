@@ -85,10 +85,11 @@
                             <td style="padding: 8px;">{{ item.raceName }}</td>
                             <td style="padding: 8px;">{{ item.className }}</td>
                             <td style="padding: 8px;">
-                                <v-btn icon @click="editCharacter(item)"> <!-- เมื่อกดปุ่มนี้ จะเด้ง edit model ขึ้นมา-->
+                                <v-btn icon @click="editCharacter(item)">
+                                    <!-- เมื่อกดปุ่มนี้ จะเด้ง edit model ขึ้นมา-->
                                     <v-icon>mdi-pencil</v-icon>
                                 </v-btn>
-                                <v-btn icon @click="deleteCharacter(item.characterId)"> 
+                                <v-btn icon @click="deleteCharacter(item.characterId)">
                                     <v-icon color="red">mdi-delete</v-icon>
                                 </v-btn>
                             </td>
@@ -106,7 +107,6 @@
                     <v-form @submit.prevent="updateCharacter">
                         <v-row class="d-flex align-center">
                             <v-checkbox v-model="editFlags.characterName"
-                                        label="Mark for edit"
                                         class="mr-2" />
                             <v-text-field label="Character Name"
                                           v-model="editedCharacter.characterName"
@@ -116,7 +116,6 @@
 
                         <v-row class="d-flex align-center">
                             <v-checkbox v-model="editFlags.alignmentId"
-                                        label="Mark for edit"
                                         class="mr-2" />
                             <v-select label="Alignment"
                                       :items="alignments"
@@ -129,7 +128,6 @@
 
                         <v-row class="d-flex align-center">
                             <v-checkbox v-model="editFlags.raceId"
-                                        label="Mark for edit"
                                         class="mr-2" />
                             <v-select label="Race"
                                       :items="races"
@@ -142,7 +140,6 @@
 
                         <v-row class="d-flex align-center">
                             <v-checkbox v-model="editFlags.classId"
-                                        label="Mark for edit"
                                         class="mr-2" />
                             <v-select label="Class"
                                       :items="classes"
@@ -173,9 +170,7 @@
 
     const router = useRouter();
 
-    // Modal
     const dialog = ref(false);
-
     const newCharacter = ref({
         characterName: '',
         alignmentId: null,
@@ -189,7 +184,6 @@
         dialog.value = true;
     };
 
-    // Dropdown data
     const alignments = ref([]);
     const races = ref([]);
     const classes = ref([]);
@@ -229,7 +223,6 @@
     };
 
     const dialogEdit = ref(false);
-
     const editFlags = ref({
         characterName: false,
         alignmentId: false,
@@ -237,15 +230,13 @@
         classId: false,
     });
 
-
     const editedCharacter = ref({
         characterId: null,
         characterName: '',
-        alignmentId: null, /* แสดง Alignment ปัจจุบัน */
+        alignmentId: null,
         raceId: null,
         classId: null
     });
-
 
     const editCharacter = (item) => {
         editedCharacter.value = {
@@ -260,7 +251,6 @@
 
     const updateCharacter = async () => {
         try {
-            // สร้าง payload ใหม่เฉพาะฟิลด์ที่ถูกแก้ไข
             const payload = { characterId: editedCharacter.value.characterId };
             if (editFlags.value.characterName) payload.characterName = editedCharacter.value.characterName;
             if (editFlags.value.alignmentId) payload.alignmentId = editedCharacter.value.alignmentId;
@@ -275,8 +265,6 @@
             alert("Failed to update character");
         }
     };
-
-
 
     const deleteCharacter = async (id) => {
         if (confirm("Are you sure you want to delete this character?")) {

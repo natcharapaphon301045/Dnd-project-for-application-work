@@ -1,0 +1,6 @@
+projectKey=dnd-project-for-application-work
+serverUrl=http://localhost:9000
+serverVersion=25.5.0.107428
+dashboardUrl=http://localhost:9000/dashboard?id=dnd-project-for-application-work
+ceTaskId=15dd3816-d610-4c5f-8c14-6de3117f4fd6
+ceTaskUrl=http://localhost:9000/api/ce/task?id=15dd3816-d610-4c5f-8c14-6de3117f4fd6
